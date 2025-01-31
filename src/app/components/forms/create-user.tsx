@@ -68,11 +68,10 @@ export function CreateUserForm(props: CreateUserFormProps) {
       const { status } = data
 
       const parsedStatus = status === 'true'
-
-      if (props.isEditing && props.initialData) {
+      if (props.isEditing && props.initialData && props.initialData.id) {
         await handleUpdateUser(props.initialData.id, {
           ...data,
-          status: parsedStatus,
+          status: String(parsedStatus),
         })
 
         const updatedUsers = await getUsers()
@@ -104,7 +103,10 @@ export function CreateUserForm(props: CreateUserFormProps) {
         birthDate: updatedUserData.birthDate,
       }
 
-      const updatedUser = await updateUser(userId, userData)
+      const updatedUser = await updateUser(userId, {
+        ...updatedUserData,
+        status: updatedUserData.status === 'true',
+      })
 
       setUsers((prevUsers) =>
         prevUsers.map((user) =>

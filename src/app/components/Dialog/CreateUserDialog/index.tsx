@@ -43,7 +43,7 @@ export default function CreateUserDialog({ ...rest }) {
         <div className="gap-4 py-2">
           <CreateUserForm
             isEditing={!!selectedUser}
-            initialData={selectedUser}
+            initialData={selectedUser ?? undefined}
           />
         </div>
       </DialogContent>
