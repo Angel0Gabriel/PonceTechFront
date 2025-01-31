@@ -27,9 +27,11 @@ import UsersTable from './components/UsersTable'
 import { useContext } from 'react'
 import { UsersContext } from '@/contexts/UsersContext'
 import CreateUserDialog from '../Dialog/CreateUserDialog'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function UsersDashboard() {
   const { users } = useContext(UsersContext)
+  const { logout } = useAuth()
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -59,9 +61,7 @@ export default function UsersDashboard() {
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => {}}>
-                        Sair
-                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={logout}>Sair</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>

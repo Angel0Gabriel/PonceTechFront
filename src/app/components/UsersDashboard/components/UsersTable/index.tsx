@@ -24,6 +24,7 @@ import { MoreHorizontal } from 'lucide-react'
 import { useContext, useEffect } from 'react'
 import { UsersContext } from '@/contexts/UsersContext'
 import { deleteUser, getUsers } from '@/services/api'
+import { useAuth } from '@/contexts/AuthContext'
 
 export interface UserData {
   id?: string
@@ -36,12 +37,14 @@ export interface UserData {
 export default function UsersTable() {
   const { setIsOpen, setUsers, setSelectedUser, users } =
     useContext(UsersContext)
+  const { isAuthenticated } = useAuth()
 
   useEffect(() => {
     async function fetchUsers() {
+      if (!isAuthenticated) return
+
       try {
         const usersData = await getUsers()
-
         setUsers(usersData)
       } catch (error) {
         console.error('Erro ao buscar usuários:', error)
@@ -50,7 +53,7 @@ export default function UsersTable() {
     }
 
     fetchUsers()
-  }, [setIsOpen, setUsers])
+  }, [setIsOpen, setUsers, isAuthenticated])
 
   async function handleSetUserToEdit(user: UserData) {
     setSelectedUser(user)
